@@ -1,52 +1,56 @@
 package com.pgh;
 
 public class QuickSort {
-    int[] A = {23, 6, 44, 22, 8, 5, 11, 40, 34, 18};
+    int[] A = {35, 33, 42, 10, 14, 19, 27, 44, 26, 31};
     int left = 0;
     int right = A.length - 1;
 
 
     public void QuickSort() {
         quickSort(A, left, right);
-        for (int k = 0; k < A.length; k++) {
-            System.out.print(A[k] + " ");
-        }
     }
 
     private void quickSort(int[] A, int left, int right) {
-        int a;
-        if (left < right) {
-            a = partition(A, left, right);
-            quickSort(A, left, a);
+        int a = partition(A, left, right);
+        if (left == (a - 1)) {
+            if (A[left] >= A[a]) {
+                int b = A[a];
+                A[a] = A[left];
+                A[left] = b;
+            }
+        } else {
+            quickSort(A, left, a - 1);
             quickSort(A, a + 1, right);
         }
+
     }
 
     private int partition(int[] A, int left, int right) {
-        int x = A[left];
-        int i = left + 1;
-        int j = right;
-        int t;
+        int X = A[right];
+        int i = left;
+        int j = right - 1;
+
         do {
-            while ((i <= j) && A[i] <= x)
-                i++;
-            while ((i <= j) && A[i] > x) {
+            while ((i <= j) && A[i] <= X) i++;
+            while ((i <= j) && A[j] >= X) {
                 j--;
-                if (i < j) {
-                    t = A[i];
-                    A[i] = A[j];
-                    A[j] = t;
-                    i++;
-                    j--;
-                }
+                if (j == 0) break;
             }
 
+            if (i > j) break;
+            if (A[i] >= X && A[j] <= X) {
+                int mid = A[i];
+                A[i] = A[j];
+                A[j] = mid;
+                i++;
+                j--;
+            }
+        } while (i < j);
 
-        } while (i <= j);
-        t = A[left];
-        A[left] = A[j];
-        A[j] = t;
+        int m = A[i];
+        A[i - 1] = X;
+        A[right] = m;
+
         return j;
     }
-
 }
